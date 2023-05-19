@@ -1,0 +1,77 @@
+<html>
+  <head>
+    <script src="{{url_for('static', filename = 'js/libs/socket.io.min.js')}}"></script>
+    <link
+      href="{{url_for('static', filename = 'css/style.css')}}"
+      rel="stylesheet"
+    />
+    <title>Online Face Recognition</title>
+  </head>
+  <body>
+    <div class="contentarea">
+      <div class="camera">
+        <video id="video">Video stream not available.</video>
+        <!-- <p id="statuts">Never</p> -->
+        <!-- <button id="add_face">Add face</button> -->
+        <!-- create a form to add a face and a name the form is filled with an automatically incremented ID, JS is used to capture a picture before sending all the information via a websocket -->
+        <br> 
+        <form id="add_face_form" action="javascript:document.getElementById('add_face_button').click()">
+          <input type="text" id="name" name="name" placeholder="Name">
+          <input type="hidden" id="id" name="id" value="0">
+          <!-- <input type="submit" value="Add face"> -->
+          <input value="Add face" type="button" id="add_face_button">
+          <!-- <button id="add_face_button">Add face</button> -->
+        </form>
+        <br>
+        <!-- A row of button that select which models to run on the server (age, ethnicity, sex, emotion)-->
+        <h3>Models</h3>
+        <table style="width:500px;border:0px;">
+          <tr>
+            <td><input id="checkbox_emotion" type="checkbox" value="Emotion" checked> Emotion</td>
+            <td><input id="checkbox_sex" type="checkbox" value="Sex" checked> Sex</td>
+            <td><input id="checkbox_age" type="checkbox" value="Age" checked> Age</td>
+            <td><input id="checkbox_ethnicity" type="checkbox" value="Ethnicity" checked> Ethnicity</td>
+          </tr>
+        </table>
+        <h3>Face detection backend</h3>
+        <table style="width:500px;border:0px;">
+          <tr>
+            <!-- radio buttons to select the backend (opencv, retinaface, mtcnn, ssd,
+            dlib or mediapipe) -->
+            <td><input type="radio" id="opencv" name="detection_backend" value="opencv" checked> OpenCV</td>
+            <td><input type="radio" id="retinaface" name="detection_backend" value="retinaface"> RetinaFace</td>
+            <td><input type="radio" id="mtcnn" name="detection_backend" value="mtcnn"> MTCNN</td>
+            <td><input type="radio" id="ssd" name="detection_backend" value="ssd"> SSD</td>
+            <td><input type="radio" id="dlib" name="detection_backend" value="dlib"> Dlib</td>
+            <td><input type="radio" id="mediapipe" name="detection_backend" value="mediapipe"> MediaPipe</td>
+          </tr>
+        </table>
+        <h3>Face recognition representation model</h3>
+        <table style="width:500px;border:0px;">
+          <tr>
+            <!-- radio buttons to select the backend (VGG-Face, Facenet, Facenet512, OpenFace, DeepFace, DeepID, Dlib,
+            ArcFace, SFace) -->
+            <td><input type="radio" id="vgg-face" name="representation_backend" value='vgg-face' checked> VGG-Face</td>
+            <td><input type="radio" id="facenet" name="representation_backend" value='facenet'> Facenet</td>
+            <td><input type="radio" id="facenet512" name="representation_backend" value='facenet512'> Facenet512</td>
+            <td><input type="radio" id="openface" name="representation_backend" value='openface'> OpenFace</td>
+            <td><input type="radio" id="deepface" name="representation_backend" value='deepface'> DeepFace (Facebook)</td>
+            <td><input type="radio" id="deepid" name="representation_backend" value='deepid'> DeepID</td>
+            <td><input type="radio" id="dlib" name="representation_backend" value='dlib'> Dlib</td>
+            <td><input type="radio" id="arcface" name="representation_backend" value='arcface'> ArcFace</td>
+            <td><input type="radio" id="sface" name="representation_backend" value='sface'> SFace</td>
+          </tr>
+        </table>
+      </div>
+      <canvas id="canvas" style="display: none"></canvas>
+      <div class="output">
+        <img id="photo" alt="The screen capture will appear in this box." style="display: none"/>
+      </div>
+      <h3>Results</h3>
+      <p id="analysis_results"></p>
+  </body>
+  <script
+  type="text/javascript"
+  src="{{ url_for('static', filename = 'js/app.js') }}"
+></script>
+</html>

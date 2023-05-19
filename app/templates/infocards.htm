@@ -1,0 +1,104 @@
+<h3>Settings used</h3>
+<table style="width: 500px; border: 0px">
+  <tr>
+    <td>Face detection backend</td>
+    <td>
+      {{ result.get('settings', {}).get('detection_backend', 'unknown') }}
+    </td>
+  </tr>
+  <tr>
+    <td>Face recognition representation model</td>
+    <td>
+      {{ result.get('settings', {}).get('representation_backend', 'unknown') }}
+    </td>
+  </tr>
+  <!-- <tr>
+        <td>Models</td>
+        <td>{{result['settings']['models']}}</td>
+    </tr> -->
+</table>
+{%for face in result.get('faces', [])%}
+<div class="infocards">
+  <img src="{{ face.get('face') }}" alt="face image" height="200" />
+
+  <style type="text/css">
+    .tg {
+      border-collapse: collapse;
+      border-spacing: 0;
+    }
+    .tg td {
+      border-color: black;
+      border-style: solid;
+      border-width: 1px;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      overflow: hidden;
+      padding: 10px 5px;
+      word-break: normal;
+    }
+    .tg th {
+      border-color: black;
+      border-style: solid;
+      border-width: 1px;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      font-weight: normal;
+      overflow: hidden;
+      padding: 10px 5px;
+      word-break: normal;
+    }
+    .tg .tg-0pky {
+      border-color: inherit;
+      text-align: left;
+      vertical-align: top;
+    }
+    .tg .tg-0lax {
+      text-align: left;
+      vertical-align: top;
+    }
+  </style>
+  <table class="tg">
+    <thead>
+      <tr>
+        <th class="tg-0pky">Name (or ID)</th>
+        <th class="tg-0lax">
+          {{ face.get('name', face.get('id', 'unknown')) }}
+        </th>
+        <!-- <th class="tg-0pky">{{ face }}</th> -->
+        <th class="tg-0pky">Not implemented</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="tg-0pky">Age</td>
+        <td class="tg-0lax">{{ face.get('age') }}</td>
+        <td class="tg-0pky"></td>
+      </tr>
+      <tr>
+        <td class="tg-0pky">Sex</td>
+        <td class="tg-0lax">{{ face.get('dominant_gender', 'unknown') }}</td>
+        <td class="tg-0pky">
+          {{ face.get('gender', {}).get(face.get('dominant_gender', 'unknown'),
+          'unknown') }}
+        </td>
+      </tr>
+      <tr>
+        <td class="tg-0pky">Ethnicity</td>
+        <td class="tg-0lax">{{ face.get('dominant_race', 'unknown') }}</td>
+        <td class="tg-0pky">
+          {{ face.get('race', {}).get(face.get('dominant_race', 'unknown'),
+          'unknown') }}
+        </td>
+      </tr>
+      <tr>
+        <td class="tg-0pky">Emotion</td>
+        <td class="tg-0lax">{{ face.get('dominant_emotion', 'unknown') }}</td>
+        <td class="tg-0pky">
+          {{ face.get('emotion', {}).get(face.get('dominant_emotion',
+          'unknown'), 'unknown') }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+{%endfor%}
