@@ -172,6 +172,18 @@ def combined_analyze(
     return resp_objects
 
 
+def generate_representations(faces, **kwargs):
+    representations = []
+
+    for face in faces:
+        representations_dict = {}
+        for model in ('VGG-Face', 'Facenet', 'Facenet512', 'OpenFace', 'DeepFace', 'DeepID', 'Dlib', 'ArcFace', 'SFace'):
+            representations_dict[model] = represent(
+                face.get('face'), model_name=model, detector_backend='skip', **kwargs)
+
+        representations.append(representations_dict)
+
+
 def pretty_result(result: dict | str, settings_json: dict):
     if isinstance(result, str):
         result = [{"info": result}]

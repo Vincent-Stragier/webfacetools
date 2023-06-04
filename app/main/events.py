@@ -10,7 +10,7 @@ import PIL.Image
 from flask_socketio import emit  # , join_room, leave_room
 from flask import request
 from app import socketio
-from .utils import combined_analyze, pretty_result
+from .utils import combined_analyze, generate_representations, pretty_result
 import cv2
 import numpy as np
 from multiprocessing import Lock
@@ -66,9 +66,6 @@ def handle_frame(frame):
 
     try:
         # Extract faces here
-        # faces = DeepFace.extract_faces(
-        #     image, detector_backend=detector_backend)
-
         result = combined_analyze(image, actions=actions,
                                   enforce_actions=False,
                                   detector_backend=detector_backend)
@@ -81,7 +78,6 @@ def handle_frame(frame):
             region = obj_copy.get('region', None)
 
             if region:
-                # x, y, w, h = region
                 x, y, w, h = int(region['x']), int(
                     region['y']), int(region['w']), int(region['h'])
 
@@ -131,13 +127,17 @@ def add_face(frame):
         'detection_backend', 'opencv')
 
     # use deepface to detect faces
-    face = DeepFace.extract_faces(
-        image, detector_backend=detection_backend, enforce_detection=False)[0]
+    faces = DeepFace.extract_faces(
+        image, detector_backend=detection_backend, enforce_detection=False)
+
+    representations = generate_representations(faces)
+
+    print(representations)
 
     # display face detected face
-    print(face)
-
-    cv2.imshow('face', face.get('face'))
+    for face in faces:
+        print(face)
+        cv2.imshow('face', face.get('face'))
     cv2.waitKey(1)
 
     # save image file
