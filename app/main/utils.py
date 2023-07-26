@@ -172,7 +172,18 @@ def combined_analyze(
     return resp_objects
 
 
-def generate_representations(faces, **kwargs):
+def generate_representations(faces, **kwargs) -> list[dict] | tuple[dict]:
+    """Generate all the representations of the faces
+
+    Args:
+        faces (list[dict]|tuple[dict]): a list of dictionaries which
+        contain faces
+
+    Returns:
+        list[dict]: a list of dictionaries which the keys are
+        the representations models names and the value is
+        the representation
+    """
     representations = []
 
     for face in faces:
@@ -182,6 +193,8 @@ def generate_representations(faces, **kwargs):
                 face.get('face'), model_name=model, detector_backend='skip', **kwargs)
 
         representations.append(representations_dict)
+
+    return representations
 
 
 def pretty_result(result: dict | str, settings_json: dict):
